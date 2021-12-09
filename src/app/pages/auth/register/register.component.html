@@ -1,0 +1,54 @@
+<div class="main">
+  <div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6">
+        <div class="card card-1 px-5 py-5" id="form1">
+          <div class="d-flex justify-content-center">
+            <img
+              width="150px"
+              class="mb-4"
+              src="https://gorila.com.br/wp-content/uploads/LogoGorila.svg"
+              alt=""
+            />
+          </div>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div>
+              <div class="forms-inputs mb-4">
+                <span>Email</span>
+                <input
+                  class="w-100"
+                  formControlName="email"
+                  type="email"
+                  name="email"
+                />
+                <div class="invalid-feedback">Insira um email valido!</div>
+              </div>
+              <div class="forms-inputs mb-4">
+                <span>Senha</span>
+                <input
+                  class="w-100"
+                  formControlName="password"
+                  type="password"
+                  name="password"
+                />
+                <div class="invalid-feedback">
+                  Senha deve conter no minimo 6 caracteres!
+                </div>
+              </div>
+              <div class="mb-4">
+                <button type="submit" class="btn btn-login w-100">Login</button>
+              </div>
+              <div class="form-footer text-center mt-3">
+                <hr class="mb-3" />
+                <span>
+                  Já possui uma conta?
+                  <a [routerLink]="['/login']"> Entrar</a>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

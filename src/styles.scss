@@ -1,1 +1,64 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+* {
+  font-family: lato, Lato;
+}
+body {
+  --text-color: #222;
+  --bkg-color: #f1f1f1;
+  --btn-txt-color: white;
+  --card-color: #fff;
+  --btn-bg-color: rgb(11, 88, 160);
+}
+body.dark-theme {
+  --text-color: #eee;
+  --bkg-color: #121212;
+  --card-color: #272727;
+  --btn-txt-color: rgb(46, 43, 43);
+  --btn-bg-color: rgb(20, 211, 195);
+}
+.main {
+  background-color: (var(--bkg-color)) !important;
+  color: (var(--text-color));
+}
+.card-1,
+.navbar {
+  background-color: (var(--card-color)) !important;
+  color: (var(--text-color));
+}
+.btn-add-investment,
+.btn-login {
+  background-color: #10c0c6;
+  color: #fff;
+}
+.forms-inputs span {
+  position: absolute;
+  top: -18px;
+  left: 10px;
+  color: var(--text-color);
+  background-color: var(--card-color);
+  padding: 5px 10px;
+  font-size: 15px;
+}
+
+.forms-inputs input {
+  background-color: var(--card-color);
+  color: var(--text-color);
+  padding-left: 0.7rem;
+  height: 50px;
+  border: 2px solid var(--bkg-color);
+}
+
+.forms-inputs input:focus {
+  box-shadow: none;
+  outline: none;
+  border: 2px solid var(--text-color);
+}
+.form-footer hr {
+  color: var(--bkg-color);
+  height: 3px;
+}
+.main {
+  overflow-x: hidden;
+  min-height: 100vh;
+}
