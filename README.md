@@ -15,7 +15,7 @@ Se é a primeira vez rodando o projeto digite `npm install` e em seguida o coman
 
 ## Build
 
-Digite `ng build` no terminal para gerar uma versão final da aplicação. Os arquivos ficarão em `dist/` no projeto.
+Digite `ng build --prod` no terminal para gerar uma versão final da aplicação. Os arquivos ficarão em `dist/` no projeto.
 
 ## Link do Projeto Hospedado
 
