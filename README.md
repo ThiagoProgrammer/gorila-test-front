@@ -19,6 +19,6 @@ Digite `ng build` no terminal para gerar uma versão final da aplicação. Os ar
 
 ## Link do Projeto Hospedado
 
-https://gorila-test.web.app
+https://gorila-test-f0ba5.web.app
 
 Não é necessario rodar algo localmente, somente criar uma conta.
