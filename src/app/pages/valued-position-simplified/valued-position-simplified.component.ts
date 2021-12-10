@@ -131,7 +131,6 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
                 label: 'Valor Total Investido',
                 color: '#288a8e',
                 formatter: function (w: any) {
-                  console.log(w);
                   const brlPipe = new BrlPipe();
                   return brlPipe.transform(totalInvestments);
                 },
@@ -183,7 +182,7 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
   }
   filterInvestments(event: any) {
     const value = event.target.value;
-    console.log(value);
+
     if (value == 'ALL') {
       this.investmentsFiltered = JSON.parse(JSON.stringify(this.investments));
     } else {
