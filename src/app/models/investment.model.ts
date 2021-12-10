@@ -1,6 +1,10 @@
+enum Type {
+  'RENDA_FIXA',
+  'RENDA_VARIAVEL',
+}
 export class Investment {
   id?: number;
-  type?: string;
-  value?: string;
-  date?: Date;
+  type?: Type;
+  value?: number;
+  date?: string;
 }

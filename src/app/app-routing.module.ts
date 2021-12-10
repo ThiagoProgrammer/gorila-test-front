@@ -1,3 +1,4 @@
+import { LoggedGuard } from './helpers/logged.guard';
 import { AuthGuard } from './helpers/auth.guard';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { NgModule } from '@angular/core';
@@ -12,10 +13,12 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    canActivate: [LoggedGuard],
     path: 'login',
     component: LoginComponent,
   },
   {
+    canActivate: [LoggedGuard],
     path: 'register',
     component: RegisterComponent,
   },

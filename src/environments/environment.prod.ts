@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api_url: 'https://localhost:3000/api/v1',
+  api_url: 'https://gorila-api-teste.herokuapp.com/api/v1',
 };

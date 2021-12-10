@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+// regular style toast
+@import "~ngx-toastr/toastr";
 * {
   font-family: lato, Lato;
 }
@@ -22,7 +24,11 @@ body.dark-theme {
   color: (var(--text-color));
 }
 .card-1,
-.navbar {
+.navbar,
+table,
+th,
+td,
+td i {
   background-color: (var(--card-color)) !important;
   color: (var(--text-color));
 }

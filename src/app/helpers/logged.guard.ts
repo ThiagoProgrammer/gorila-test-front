@@ -14,14 +14,12 @@ export class LoggedGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
 
   async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const token = await localStorage.getItem('key');
+    const user = await JSON.parse(localStorage.getItem('currentUser') || '{}');
 
-    if (token) {
-      await this.router.navigate(['/crypto-valued-position']);
+    if (user.token) {
+      await this.router.navigate(['/investments']);
       return true;
     } else {
-      // User is Logged Out, so can't active
-
       return true;
     }
   }

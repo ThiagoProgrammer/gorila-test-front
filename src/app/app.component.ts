@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   }
   checkDarkMode() {
     const darkMode = JSON.parse(localStorage.getItem('DARKTHEME') || 'false');
-    console.log(darkMode, 'darkMode');
+
     if (darkMode) {
       document.body.classList.add('dark-theme');
     } else {

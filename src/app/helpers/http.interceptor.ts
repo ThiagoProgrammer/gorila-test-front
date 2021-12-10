@@ -15,15 +15,15 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token: any = this.authService.getCurrentUser();
-    if (token) {
-      if (!token) {
+    const user: any = this.authService.getCurrentUser();
+    if (user.token) {
+      if (!user.token) {
         localStorage.removeItem('currentUser');
         this.router.navigate(['/login']);
       }
       request = request.clone({
         setHeaders: {
-          Authentication: `Bearear ${token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
       return next.handle(request);

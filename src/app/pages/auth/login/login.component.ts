@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from './../../../services/auth.service';
 import { User } from './../../../models/user.model';
 import { Component, OnInit } from '@angular/core';
@@ -19,9 +20,9 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   constructor(
-    private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -51,9 +52,10 @@ export class LoginComponent implements OnInit {
         'currentUser',
         JSON.stringify({ user: res.user, token: res.token })
       );
+      this.toastr.success('Logado com sucesso!', 'Sucesso!');
       this.router.navigate(['/investments']);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      this.toastr.error(error.message);
     }
   }
 }

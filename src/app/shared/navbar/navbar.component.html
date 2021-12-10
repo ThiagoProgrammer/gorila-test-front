@@ -6,8 +6,18 @@
         src="https://gorila.com.br/wp-content/uploads/LogoGorila.svg"
         alt=""
     /></a>
-    <div class="navbar-theme" (click)="changeTheme()">
-      Tema {{ darkTheme ? "Escuro" : "Claro" }} <i class="ms-2 fas fa-sun"></i>
+    <div class="navbar-theme d-flex align-items-center">
+      <button
+        (click)="changeTheme()"
+        [ngClass]="darkTheme ? 'btn-outline-light' : 'btn-outline-dark'"
+        class="btn me-5"
+      >
+        Tema {{ darkTheme ? "Claro" : "Escuro" }}
+        <i class="ms-2 fas fa-sun"></i>
+      </button>
+      <button class="btn btn-danger" (click)="logout()">
+        <i class="fas fa-sign-out-alt me-2"></i> Sair
+      </button>
     </div>
   </div>
 </nav>

@@ -3,20 +3,23 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="card-1 mt-5 col-md-12">
-        <h4 class="text-center">Carteira de Investimentos</h4>
-        <p class="ms-5 mt-4">Adicionar novo investimento:</p>
+        <h3 class="text-center">Carteira de Investimentos</h3>
+
         <div>
           <form
             class="row align-items-center justify-content-center"
             [formGroup]="investmentForm"
             (ngSubmit)="onSubmit()"
           >
+            <div class="col-md-10">
+              <p class="mt-5 fs-4">Adicionar novo investimento:</p>
+            </div>
             <div class="form-group col-md-3">
               <label for="type">Tipo</label>
               <select formControlName="type" class="form-select">
-                <option>Selecione</option>
-                <option>Renda Fixa</option>
-                <option>Renda Variável</option>
+                <option disabled [selected]="true">Selecione</option>
+                <option value="RENDA_FIXA">Renda Fixa</option>
+                <option value="RENDA_VARIAVEL">Renda Variável</option>
               </select>
             </div>
             <div class="form-group col-md-3">
@@ -26,7 +29,14 @@
                 type="text"
                 class="form-control"
                 id="value"
-                placeholder="Valor"
+                currencyMask
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  align: 'left'
+                }"
+                placeholder="(R$) Real"
               />
             </div>
             <div class="form-group col-md-3">
@@ -40,14 +50,98 @@
               />
             </div>
             <div class="col-md-1 d-flex align-items-center mt-4">
-              <button type="submit" class="btn btn-add-investment">
+              <button
+                [disabled]="!investmentForm.valid"
+                type="submit"
+                class="btn btn-add-investment"
+              >
                 <i class="fas fa-plus"></i>
               </button>
             </div>
           </form>
         </div>
         <div class="mt-5">
-          <p class="ms-5">Seus Investimentos</p>
+          <div class="row justify-content-center">
+            <div class="col-md-10">
+              <p class="fs-4 mt-3">Seus Investimentos</p>
+
+              <div class="d-flex align-items-center">
+                <div class="ms-auto mb-3">
+                  <select
+                    class="form-select"
+                    (change)="filterInvestments($event)"
+                  >
+                    <option disabled [selected]="true">Filtrar</option>
+                    <option value="ALL">Todos</option>
+                    <option value="RENDA_FIXA">Renda Fixa</option>
+                    <option value="RENDA_VARIAVEL">Renda Variável</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-10">
+              <div
+                class="text-center p-4"
+                *ngIf="investments && investments.items.length < 1"
+              >
+                Nenhum investimento encontrado, que tal adicionar um
+                <i class="ms-1 fas fa-hand-point-up"></i>
+              </div>
+              <div
+                *ngIf="investments && investments.items.length > 0"
+                class="table-responsive"
+              >
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Tipo</th>
+                      <th scope="col">Valor</th>
+                      <th scope="col">Data</th>
+                      <th scope="col">Excluir</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let investment of investmentsFiltered.items">
+                      <td>
+                        {{
+                          investment.type == "RENDA_FIXA"
+                            ? "Renda Fixa"
+                            : "Renda Variável"
+                        }}
+                      </td>
+                      <td>{{ investment.value | currency }}</td>
+                      <td>{{ investment.date | date: "dd/MM/yyyy" }}</td>
+                      <td>
+                        <button
+                          class="btn btn-delete-investment"
+                          (click)="deleteInvestment(investment.id)"
+                        >
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="investments && investments.items.length > 0" class="mt-5">
+          <p class="text-center fs-4">Resumo da Carteira</p>
+          <div class="row justify-content-center">
+            <div class="col-md-6 mt-5" id="chart">
+              <apx-chart
+                [series]="chartOptions.series"
+                [chart]="chartOptions.chart"
+                [labels]="chartOptions.labels"
+                [responsive]="chartOptions.responsive"
+                [tooltip]="chartOptions.tooltip"
+                [legend]="chartOptions.legend"
+              ></apx-chart>
+            </div>
+          </div>
         </div>
       </div>
     </div>

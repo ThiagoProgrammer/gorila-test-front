@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   darkTheme: boolean = false;
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.getActualTheme();
@@ -23,5 +24,9 @@ export class NavbarComponent implements OnInit {
       document.body.classList.remove('dark-theme');
     }
     this.getActualTheme();
+  }
+  logout() {
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']);
   }
 }
