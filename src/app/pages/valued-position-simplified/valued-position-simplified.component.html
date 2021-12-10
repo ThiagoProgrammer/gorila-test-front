@@ -60,7 +60,10 @@
             </div>
           </form>
         </div>
-        <div class="mt-5">
+        <div *ngIf="loading" class="d-flex justify-content-center mt-5 p-3">
+          <div class="spinner-border text-primary"></div>
+        </div>
+        <div *ngIf="investments && investments.items!.length > 0" class="mt-5">
           <div class="row justify-content-center">
             <div class="col-md-10">
               <p class="fs-4 mt-3">Seus Investimentos</p>
@@ -84,15 +87,12 @@
             <div class="col-md-10">
               <div
                 class="text-center p-4"
-                *ngIf="investments && investments.items.length < 1"
+                *ngIf="!loading && investments && investments.items!.length < 1"
               >
                 Nenhum investimento encontrado, que tal adicionar um
                 <i class="ms-1 fas fa-hand-point-up"></i>
               </div>
-              <div
-                *ngIf="investments && investments.items.length > 0"
-                class="table-responsive"
-              >
+              <div class="table-responsive">
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -128,17 +128,19 @@
             </div>
           </div>
         </div>
-        <div *ngIf="investments && investments.items.length > 0" class="mt-5">
+        <div *ngIf="investments && investments.items!.length > 0" class="mt-5">
           <p class="text-center fs-4">Resumo da Carteira</p>
           <div class="row justify-content-center">
             <div class="col-md-6 mt-5" id="chart">
               <apx-chart
+                #chart
                 [series]="chartOptions.series"
                 [chart]="chartOptions.chart"
                 [labels]="chartOptions.labels"
                 [responsive]="chartOptions.responsive"
                 [tooltip]="chartOptions.tooltip"
                 [legend]="chartOptions.legend"
+                [plotOptions]="chartOptions.plotOptions"
               ></apx-chart>
             </div>
           </div>

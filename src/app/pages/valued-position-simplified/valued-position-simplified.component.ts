@@ -25,6 +25,8 @@ export type ChartOptions = {
   legend?: any;
   labels?: any;
   tooltip?: any;
+  total?: any;
+  plotOptions?: any;
 };
 @Component({
   selector: 'app-valued-position-simplified',
@@ -33,11 +35,13 @@ export type ChartOptions = {
 })
 export class ValuedPositionSimplifiedComponent implements OnInit {
   investmentForm!: FormGroup;
-  investments?: any;
+  investments?: Investment;
   investmentsFiltered: any;
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
   totalInvestments: any;
+  darkMode: boolean = false;
+  loading: boolean = false;
   constructor(
     private titleService: Title,
     private router: Router,
@@ -53,11 +57,11 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
     this.createInvestmentsForm(new Investment());
     this.getUserInvestments();
   }
-  createChart() {
+  createChart(totalInvestments: any) {
     this.chartOptions = {
       series: [
-        this.investments.totalRendaVariavel,
-        this.investments.totalRendaFixa,
+        this.investments!.totalRendaVariavel,
+        this.investments!.totalRendaFixa,
       ],
 
       chart: {
@@ -67,14 +71,14 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
         'Renda Variável ' +
           this.percentagePipe.transform(
             Math.round(
-              (this.investments.totalRendaVariavel / this.totalInvestments) *
+              (this.investments!.totalRendaVariavel! / this.totalInvestments) *
                 100
             )
           ),
         'Renda Fixa ' +
           this.percentagePipe.transform(
             Math.round(
-              (this.investments.totalRendaFixa / this.totalInvestments) * 100
+              (this.investments!.totalRendaFixa! / this.totalInvestments) * 100
             )
           ),
       ],
@@ -91,7 +95,6 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
             },
           },
         },
-
         {
           breakpoint: 1367,
           options: {
@@ -109,6 +112,42 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
           },
         },
       ],
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '10px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 300,
+                offsetY: 20,
+                color: '#288a8e',
+              },
+              total: {
+                show: true,
+                showAlways: true,
+                label: 'Valor Total Investido',
+                color: '#288a8e',
+                formatter: function (w: any) {
+                  console.log(w);
+                  const brlPipe = new BrlPipe();
+                  return brlPipe.transform(totalInvestments);
+                },
+              },
+              value: {
+                show: true,
+                fontSize: '22px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 600,
+                offsetY: -20,
+                color: '#288a8e',
+              },
+            },
+          },
+        },
+      },
       legend: {
         show: true,
         position: 'right',
@@ -130,28 +169,28 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
 
   async getUserInvestments() {
     try {
+      this.loading = true;
       this.investments = await lastValueFrom(this.investmentsService.getAll());
-      this.investmentsFiltered = this.investments;
+      this.investmentsFiltered = JSON.parse(JSON.stringify(this.investments));
       this.totalInvestments =
-        this.investments.totalRendaFixa + this.investments.totalRendaVariavel;
-      this.createChart();
+        this.investments!.totalRendaFixa! +
+        this.investments!.totalRendaVariavel!;
+      this.createChart(this.totalInvestments);
     } catch (error) {
       this.investmentsService.actionsForError(error);
     }
+    this.loading = false;
   }
   filterInvestments(event: any) {
-    // ARRUMAR
     const value = event.target.value;
+    console.log(value);
     if (value == 'ALL') {
-      this.investmentsFiltered = this.investments;
+      this.investmentsFiltered = JSON.parse(JSON.stringify(this.investments));
     } else {
-      this.investmentsFiltered.items = this.investments.items.filter(
-        (x: any) => {
-          return x.type.includes(value);
-        }
+      this.investmentsFiltered.items = this.investments!.items!.filter(
+        (x: any) => x.type.includes(value)
       );
     }
-    console.log(this.investmentsFiltered, this.investments);
   }
 
   async deleteInvestment(id: number) {
@@ -164,7 +203,7 @@ export class ValuedPositionSimplifiedComponent implements OnInit {
     }
   }
 
-  createInvestmentsForm(investment: Investment) {
+  createInvestmentsForm(investment: InvestmentsDTO) {
     this.investmentForm = new FormGroup({
       type: new FormControl(
         investment.type,

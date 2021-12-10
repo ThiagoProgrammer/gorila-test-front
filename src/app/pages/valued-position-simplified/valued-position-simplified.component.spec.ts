@@ -8,9 +8,8 @@ describe('ValuedPositionSimplifiedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ValuedPositionSimplifiedComponent ]
-    })
-    .compileComponents();
+      declarations: [ValuedPositionSimplifiedComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
